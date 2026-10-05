@@ -86,7 +86,11 @@ def _run_job(cmds: list[list[str]], label: str) -> None:
 _FITS = ("yes", "conditional", "no")
 
 
-def _cards_ctx(fit: str = "", brand: str = ""):
+_PAGE_SIZE = 24  # a full card renders mechanism/story/all 3 versions -- at 1500+
+                 # pending ads, rendering everyone at once was a 19MB page load
+
+
+def _cards_ctx(fit: str = "", brand: str = "", page: int = 1):
     clusters, approved, maybe, _, auto = D.review_state()
     cat = D.catalogue()
     clusters.sort(key=lambda c: max(m["_days"] for m in c), reverse=True)
@@ -109,8 +113,12 @@ def _cards_ctx(fit: str = "", brand: str = ""):
     fit = fit if fit in _FITS else ""
     shown = [cd for cd in cards
              if not fit or (cd["root"].get("fits_our_brand") or "").lower() == fit]
+    n_pages = max(1, -(-len(shown) // _PAGE_SIZE))  # ceil div
+    page = min(max(page, 1), n_pages)
+    page_cards = shown[(page - 1) * _PAGE_SIZE: page * _PAGE_SIZE]
     return {
-        "cards": shown, "auto": auto, "fit": fit, "fit_counts": fit_counts, "brand": brand,
+        "cards": page_cards, "auto": auto, "fit": fit, "fit_counts": fit_counts, "brand": brand,
+        "page": page, "n_pages": n_pages, "page_size": _PAGE_SIZE,
         "n_pending": sum(len(c) for c in clusters), "n_unique": len(cards),
         "n_shown": len(shown),
         "n_approved": len(approved), "n_maybe": len(maybe),
@@ -119,15 +127,16 @@ def _cards_ctx(fit: str = "", brand: str = ""):
 
 
 @app.get("/", response_class=HTMLResponse)
-def review(request: Request, fit: str = "", brand: str = "", rf_user: str = Cookie(default="")):
-    ctx = _cards_ctx(fit, brand)
+def review(request: Request, fit: str = "", brand: str = "", page: int = 1,
+          rf_user: str = Cookie(default="")):
+    ctx = _cards_ctx(fit, brand, page)
     ctx.update(request=request, nav="review", fresh=ledger.competitor_stats(), me=rf_user)
     return templates.TemplateResponse(request, "review.html", ctx)
 
 
 @app.get("/queue", response_class=HTMLResponse)
-def queue_partial(request: Request, fit: str = "", brand: str = ""):
-    ctx = _cards_ctx(fit, brand)
+def queue_partial(request: Request, fit: str = "", brand: str = "", page: int = 1):
+    ctx = _cards_ctx(fit, brand, page)
     ctx.update(request=request)
     return templates.TemplateResponse(request, "_queue.html", ctx)
 

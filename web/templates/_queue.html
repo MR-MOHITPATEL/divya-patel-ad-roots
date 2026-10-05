@@ -3,6 +3,7 @@
   <span class="muted" style="font-size:.85rem">
     {% if fit %}filtered from {{ n_unique }}{% else %}{{ n_pending }} ads total{% endif %}
     {%- if auto %}, {{ auto }} skipped automatically as repeats{% endif %}
+    {%- if n_pages > 1 %}, page {{ page }} of {{ n_pages }}{% endif %}
   </span>
 </div>
 
@@ -18,3 +19,11 @@
 <div style="display:flex; flex-direction:column; gap:1.25rem">
 {% for c in cards %}{% include "_card.html" %}{% endfor %}
 </div>
+
+{% if n_pages > 1 %}
+<div style="display:flex; justify-content:center; gap:.5rem; margin-top:1.5rem; font-size:.85rem">
+  {% if page > 1 %}<a href="/?fit={{ fit }}&brand={{ brand }}&page={{ page - 1 }}">&larr; Prev</a>{% endif %}
+  <span class="muted">page {{ page }} of {{ n_pages }}</span>
+  {% if page < n_pages %}<a href="/?fit={{ fit }}&brand={{ brand }}&page={{ page + 1 }}">Next &rarr;</a>{% endif %}
+</div>
+{% endif %}
