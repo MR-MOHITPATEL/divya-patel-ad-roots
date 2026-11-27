@@ -1,168 +1,200 @@
-# Compliance ruleset — Dr. Bimal's Arjuna Cardio Care Tea (Jaadu Diet)
-# AUTHORITATIVE. Team-supplied (REBUILD_SPEC.md §5). Do not soften.
+# Compliance ruleset — Divya Patel's Digital University + Affiliate Program
+# Governing: ASCI Code · Consumer Protection Act 2019 · Meta Advertising Policies
 # Consumed by compliance/validate.py.
 
-product:
-  name: "Dr. Bimal's Arjuna Cardio Care Tea"
-  brand: "Jaadu Diet"
-  site: "jaadudiet.com"
-  formulator: "Dr. Bimal Chhajer MBBS MD"
-  price_inr: 599
-  pack: "50 Tea Bags"
-  per_day_inr: 12
-  ingredient_count: "14-15 Ayurvedic herbs"
-  key_herbs: [Arjuna Chhal, Green Tea, Ashwagandha, Tulsi, Dry Ginger, Cinnamon]
-  type: "Herbal tea — not a drug"
-  fssai_category: "Food for Special Dietary Use"
+business:
+  name: "Divya Patel's Digital University"
+  type: "Digital education courses + affiliate marketing program"
+  model: "Course purchase → lifetime access + government certification + automatic affiliate partner (70% commission per referral)"
+  offer: "21st-century digital & social media courses"
+  price_range: "Affordable / cheapest in market"
+  certification: "Government certification (specify which body)"
+  affiliate_commission: "70% per person referred"
+  target_audience: "Students, housewives, business owners, job holders wanting extra income — educated, somewhat serious people"
+  lead_channel: "Instagram DMs / WhatsApp after seeing Meta ads"
+  no_target_pressure: true
+  not_chain_system: true
 
 governing:
-  - NMC Code of Ethics 2023
-  - FSSAI Health Claims Regulations 2022
-  - ASCI Guidelines
-  - Drugs and Magic Remedies (Objectionable Advertisements) Act 1954
+  - ASCI (Advertising Standards Council of India) Code
   - Consumer Protection Act 2019
-  - Food Safety and Standards Act 2006
+  - Meta Advertising Policies (Business Opportunities)
+  - ASCI Guidelines on Education Sector Advertising
+  - Information Technology Act 2000 (digital ads)
 
-# ── Rule 1 — doctor credential ───────────────────────────────────────────────
-doctor:
-  names: ["Dr. Bimal Chhajer", "Dr Bimal Chhajer", "Bimal Chhajer", "Dr. Bimal", "डॉ. बिमल छाजेर", "डॉ बिमल", "बिमल छाजेर"]
+# ── Rule 1 — Income Claims (ASCI + Meta + Consumer Protection Act) ──────────
+income_claims:
+  rule: "Cannot guarantee or promise specific income amounts without disclaimers"
   allowed_patterns:
-    - "formulated by dr. bimal chhajer mbbs md"
-    - "formulated by dr bimal chhajer (mbbs, md)"
-    - "formulated by dr. bimal chhajer"
-    - "डॉ. बिमल छाजेर mbbs md द्वारा निर्मित"
-    - "डॉ. बिमल छाजेर द्वारा निर्मित"
-  banned_near_name:   # any of these within the same line as the doctor's name -> FAIL
-    - recommend
-    - recommends
-    - recommended
-    - says
-    - suggests
-    - approved
-    - endorse
-    - endorsed
-    - prescribes
-    - सलाह
-    - सुझाव
-    - सिफ़ारिश
-    - सिफारिश
+    - "earning potential"
+    - "earning opportunity"
+    - "income opportunity"
+    - "you can earn"
+    - "कमाई का मौका"
+    - "कमाने का अवसर"
+  banned:
+    - "guaranteed income"
+    - "guarantee ₹"
+    - "you will earn ₹"
+    - "earn ₹X per month guaranteed"
+    - "पक्की कमाई"
+    - "गारंटीड इनकम"
+    - "100% earning"
+  disclaimer_required: "Individual results may vary. Income depends on effort, skills, and market conditions."
+  disclaimer_hindi: "व्यक्तिगत परिणाम भिन्न हो सकते हैं। आय प्रयास, कौशल और बाज़ार की स्थितियों पर निर्भर करती है।"
 
-# ── Rule 3/5 — verbs ────────────────────────────────────────────────────────
+# ── Rule 2 — Employment / Job Guarantees (ASCI Education Guidelines) ────────
+employment_claims:
+  banned:
+    - "100% job guarantee"
+    - "guaranteed placement"
+    - "job pakki"
+    - "नौकरी पक्की"
+    - "placement guaranteed"
+    - "get hired immediately"
+    - "तुरंत नौकरी"
+  allowed:
+    - "career support"
+    - "placement assistance"
+    - "job-ready skills"
+    - "career guidance"
+    - "interview preparation"
+
+# ── Rule 3 — Certification Claims (must be verifiable) ─────────────────────
+certification:
+  rule: "Certification claims must name the actual issuing body and be verifiable"
+  banned:
+    - "government certified"       # too vague — which government body?
+    - "internationally recognized"  # which organization?
+    - "ISO certified course"       # ISO doesn't certify courses
+    - "सरकारी मान्यता प्राप्त"     # unless specifying which body
+  allowed:
+    - "Certificate from [specific body name]"
+    - "NSDC certified"
+    - "Skill India partner"
+    - "Certification upon completion"
+  note: "Always name the specific certifying body. 'Government certification' alone is misleading unless backed by NSDC/Skill India/UGC recognition."
+
+# ── Rule 4 — Testimonials & Social Proof (ASCI) ───────────────────────────
+testimonials:
+  rules:
+    - "Must be from real, verifiable students"
+    - "Income testimonials must represent TYPICAL results, not exceptional"
+    - "Paid/incentivized testimonials must be disclosed"
+    - "Screenshots of income must be genuine and unedited"
+    - "Cannot use stock photos as 'student' testimonials"
+  banned:
+    - "everyone earns ₹"
+    - "सबकी कमाई"
+    - "all students earn"
+    - "100% success rate"
+  disclaimer_for_income_testimonials: "Results shown are of specific individuals. Your results may vary based on effort and market conditions."
+
+# ── Rule 5 — Urgency / Scarcity (must be genuine) ─────────────────────────
+urgency_scarcity:
+  rule: "Urgency/scarcity claims must be genuine — fake countdown timers and fabricated seat limits are misleading advertising under Consumer Protection Act 2019"
+  banned_if_fake:
+    - "only X seats left"          # ok if actually true
+    - "offer expires today"        # ok if actually expires
+    - "last chance"
+    - "batch closing"
+  note: "These are allowed ONLY when genuinely true. Perpetual 'last 5 seats' is deceptive."
+
+# ── Rule 6 — MLM / Chain / Pyramid Disclosure (Meta + Consumer Protection) ─
+affiliate_disclosure:
+  rule: "Must clearly state this is affiliate marketing (referral-based commission), NOT employment, NOT a chain/pyramid system"
+  required_disclosures:
+    - "This is an affiliate/referral program, not employment"
+    - "Commission is per referral, not residual/recurring"
+    - "No joining fee required to become affiliate (comes with course)"
+  banned:
+    - "passive income"             # it requires active referral work
+    - "money while you sleep"
+    - "बिना मेहनत कमाओ"
+    - "no work needed"
+    - "just sit and earn"
+    - "chain system"               # Divya herself says it's NOT a chain
+    - "network marketing"          # could trigger Meta's MLM filters
+    - "पैसा ही पैसा"
+  meta_policy_note: "Meta classifies 'business opportunity' ads separately. Avoid language that makes it sound like MLM/pyramid. Emphasize the COURSE VALUE, not just the earning."
+
+# ── Rule 7 — Free / No-Cost Claims ────────────────────────────────────────
+free_claims:
+  banned:
+    - "free course"                # unless genuinely free
+    - "no cost at all"
+    - "बिल्कुल मुफ्त"
+    - "zero investment"            # the course has a price
+  note: "The course has a price. The affiliate program is free WITH the course purchase, but the course itself is not free."
+
+# ── Rule 8 — Meta Platform-Specific Rules ─────────────────────────────────
+meta_platform:
+  special_ad_category: false       # education is NOT a special category on Meta (employment IS)
+  notes:
+    - "Income opportunity ads face extra review — keep claims modest"
+    - "Avoid 'get rich quick' language — triggers automated rejection"
+    - "Before/after income comparisons allowed but need disclaimers"
+    - "Personal attributes targeting (age, gender) limited for some ad types"
+
+# ── Banned words / phrases (Layer 1 regex check) ──────────────────────────
 verbs:
-  allowed: [supports, helps, aids, "contributes to", "helps maintain", "helps reduce", "in support of", "for healthy"]
-  banned:  [treats, treat, cures, cure, prevents, prevent, reverses, reverse, heals, heal, fights, fight, eliminates, eliminate, controls, control, "clinically proven", "clinically tested", "research backed", "research-backed", "proven to"]
-  banned_hindi: [इलाज, ठीक करता, ठीक करे, रोकथाम, रोके, ख़त्म, खत्म, नियंत्रित करे, दूर करे]
+  banned:
+    - "guaranteed income"
+    - "guaranteed earning"
+    - "guaranteed job"
+    - "guaranteed placement"
+    - "100% job"
+    - "100% placement"
+    - "100% earning"
+    - "get rich quick"
+    - "get rich fast"
+    - "easy money"
+    - "quick money"
+    - "passive income"
+    - "money while you sleep"
+    - "no work needed"
+    - "zero effort"
+    - "just sit and earn"
+    - "lakhs guaranteed"
+    - "crores guaranteed"
+  banned_hindi:
+    - "गारंटीड इनकम"
+    - "पक्की नौकरी"
+    - "बिना मेहनत"
+    - "बैठे बैठे कमाओ"
+    - "पैसा ही पैसा"
+    - "लाखों की गारंटी"
+    - "करोड़ों कमाओ"
+    - "आसान पैसा"
+    - "बिल्कुल मुफ्त"
 
-# ── Rule 5 — disease terms -> safe substitutes ──────────────────────────────
-disease_terms:
-  cholesterol: "lipid levels"
-  "high bp": "blood pressure wellness"
-  "high blood pressure": "blood pressure wellness"
-  "heart disease": "heart wellness"
-  "heart attack": "heart wellness"
-  diabetes: "blood glucose regulation"
-  "blood sugar": "blood glucose regulation"
-  bp: "blood pressure wellness"
-disease_terms_hindi:
-  "कोलेस्ट्रॉल": "लिपिड लेवल"
-  "हृदय रोग": "दिल की सेहत"
-  "दिल का दौरा": "दिल की सेहत"
-  "मधुमेह": "ब्लड ग्लूकोज़ संतुलन"
-  "ब्लड शुगर": "ब्लड ग्लूकोज़ संतुलन"
-  "शुगर": "ब्लड ग्लूकोज़ संतुलन"
-
-# ── Rule 5 — outcome-timeline patterns (always FAIL for us) ─────────────────
+# ── Timeline / get-rich patterns (always flag) ────────────────────────────
 timeline_patterns:
-  - "in \\d+\\s*(day|days|week|weeks|month|months)"
-  - "\\d+\\s*(दिन|हफ़्ते|हफ्ते|महीने|माह)\\s*में"
-  - "results in"
-  - "\\d+\\s*(day|week|month)s? results"
+  - "earn \\d+.*in \\d+\\s*(day|days|week|weeks|month|months)"
+  - "\\d+\\s*(दिन|हफ़्ते|हफ्ते|महीने|माह)\\s*में.*कमा"
+  - "start earning.*immediately"
+  - "income from day 1"
+  - "first day.*earn"
+  - "पहले दिन से.*कमाई"
+  - "तुरंत कमाना शुरू"
 
-# ── Rule 4 — approved ingredient claims (the ONLY ones allowed) ─────────────
-approved_ingredient_claims:
-  Arjuna Chhal:
-    aliases: ["arjuna", "arjun chhal", "arjun bark", "terminalia arjuna", "अर्जुन छाल", "अर्जुन"]
-    claims:
-      - "Arjuna Chhal helps reduce bad cholesterol"
-      - "Arjuna Chhal supports healthy lipid levels"
-      - "Arjuna Chhal supports heart muscle function"
-      - "Arjuna Chhal supports cardiovascular antioxidant activity"
-      - "Arjuna Chhal supports healthy blood vessel function"
-    research: "Gupta et al. 2001, JAPI — PMID 11225136 — RCT, 105 pts, LDL -15.8% (p<0.01)"
-  Green Tea:
-    aliases: ["green tea", "ग्रीन टी"]
-    claims:
-      - "Green Tea supports healthy blood vessel function"
-      - "Green Tea supports cardiovascular antioxidant activity"
-    research: "PMC9231383"
-  Ashwagandha:
-    aliases: ["ashwagandha", "अश्वगंधा", "अश्वगन्धा"]
-    claims:
-      - "Ashwagandha supports healthy stress response"
-    research: "PMC3573577"
-  Tulsi:
-    aliases: ["tulsi", "holy basil", "तुलसी"]
-    claims:
-      - "Tulsi supports daily stress adaptation"
-    research: "PMC4296439"
-  Dry Ginger:
-    aliases: ["dry ginger", "sonth", "saunth", "सोंठ", "ginger"]
-    claims:
-      - "Dry Ginger supports healthy blood circulation"
-    research: "PMC3848205"
-  Cinnamon:
-    aliases: ["cinnamon", "dalchini", "दालचीनी"]
-    claims:
-      - "Cinnamon supports healthy blood glucose regulation"
-    research: "multiple peer-reviewed studies"
-  Clove:
-    aliases: ["clove", "lavang", "laung", "लौंग", "लवंग"]
-    claims:
-      - "Clove supports overall immune function"
-    research: "PMC10888574"
-  Brahmi:
-    aliases: ["brahmi", "ब्राह्मी", "ब्राम्ही"]
-    claims:
-      - "Brahmi supports healthy cognitive function"
-    research: ""
-  Cardamom:
-    aliases: ["cardamom", "elaichi", "इलायची", "इलाइची"]
-    claims:
-      - "Cardamom supports digestive comfort"
-    research: ""
-  Black Tea:
-    aliases: ["black tea", "काली चाय", "ब्लैक टी"]
-    claims:
-      - "Black Tea supports cardiovascular antioxidant activity"
-    research: ""
-
-# ── Rule 6 — headline types ────────────────────────────────────────────────
+# ── Headline types ────────────────────────────────────────────────────────
 headline_types:
-  A: "Broad wellness — no clinical test can measure or disprove it. SAFEST."
-  B: "Consumer-fear question — names the consumer's worry, not a product claim. ALLOWED."
-  C: "Ingredient claim — ingredient is the subject + 'helps' + published research. ALLOWED."
-  D: "BANNED — disease name as the headline problem / product as subject making a claim / doctor making a health statement."
+  A: "Aspiration / lifestyle — paints the life after learning. SAFEST."
+  B: "Problem-agitation — names the consumer's current frustration (9-5, low salary, no skills). ALLOWED."
+  C: "Specific benefit — names what the course teaches or the earning model. ALLOWED with disclaimers."
+  D: "BANNED — guaranteed income, get-rich-quick, fake urgency, MLM language."
 headline_examples:
-  A: ["Your heart deserves daily care.", "A daily ritual for a healthy heart.", "दिल का ख्याल रखो — हर रोज़", "दिल की देखभाल — जड़ से करें"]
-  B: ["दिल के लिए हर नुस्खा आज़माया?", "हर नुस्खा आज़माया?"]
-  C: ["अर्जुन छाल बुरे कोलेस्ट्रॉल को कम करने में मदद करती है"]
+  A: ["Turn your passion into a career.", "Your skills, your future.", "अपने सपनों को उड़ान दो", "डिजिटल दुनिया में अपनी पहचान बनाओ"]
+  B: ["Tired of the 9 to 5?", "Salary not enough?", "नौकरी से थक गए?", "महीने के आखिर में पैसे खत्म?"]
+  C: ["Learn digital marketing + earn 70% commission", "21st century skills + government certification", "डिजिटल कोर्स सीखो, फ्रीलांसिंग करो"]
 
-# ── Rule 7 — disclaimer ────────────────────────────────────────────────────
+# ── Disclaimer ────────────────────────────────────────────────────────────
 disclaimer:
-  text_en: "*This product is not intended to diagnose, treat, cure or prevent any disease."
-  text_hi: "*यह उत्पाद किसी बीमारी के निदान, उपचार, इलाज या रोकथाम के लिए नहीं है।"
-  placement: "visible, >=8pt, contrasting colour, bottom of ad"
-  required_unless:
-    - "headline is broad-wellness (Type A) only"
-    - "all claims are ingredient-attributed"
-    - "no disease name appears anywhere"
-
-# ── Rule 8 — price ─────────────────────────────────────────────────────────
-price:
-  allowed_examples: ["₹599 for 50 Tea Bags", "₹12 per day", "50 Sachets"]
-  rule: "strikethrough MRP must be the actual declared MRP on packaging — no fabricated anchor"
-
-# ── Rule 9 — social proof ──────────────────────────────────────────────────
-social_proof:
-  allowed: ["Formulated by Dr. Bimal Chhajer MBBS MD", "genuine verified star ratings", "Trusted by X customers (if verified)", "ingredient research references in small text"]
-  banned: ["fabricated testimonials", "clinically proven without a trial citation", "celebrity/doctor endorsement", "before/after medical images", "fake reviews or ratings"]
+  text_en: "*Individual results may vary. Income depends on effort, skills, and market conditions. This is not a job offer."
+  text_hi: "*व्यक्तिगत परिणाम भिन्न हो सकते हैं। आय प्रयास, कौशल और बाज़ार की स्थितियों पर निर्भर करती है। यह नौकरी का प्रस्ताव नहीं है।"
+  required_when:
+    - "Any income figure or earning potential is mentioned"
+    - "Any testimonial about income is shown"
+    - "Before/after lifestyle comparison implies income change"
+    - "Affiliate commission structure is mentioned"

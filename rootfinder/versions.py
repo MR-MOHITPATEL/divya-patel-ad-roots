@@ -1,11 +1,12 @@
 """
 Version generator — turn one catalogued root into 10+ producible executions
-for Dr. Bimal's Arjuna Cardio Care Tea, spread across image / audio / video,
-each self-checked against the NMC/FSSAI ruleset (compliance/validate.py).
+for Divya Patel's Digital University + Affiliate Program, spread across
+image / audio / video, each self-checked against the ASCI/Meta compliance
+ruleset (compliance/validate.py).
 
 Works on ANY root, including ones sourced from a competitor ad — by design
-the output is always written as our own executable idea for our product,
-never a reskin of the competitor's actual copy or ingredients.
+the output is always written as our own executable idea for our business,
+never a reskin of the competitor's actual copy or branding.
 """
 from __future__ import annotations
 
@@ -21,72 +22,63 @@ except Exception:  # noqa: BLE001
     pass
 
 _SYSTEM = (
-    "You are a senior creative director for Dr. Bimal's Arjuna Cardio Care Tea "
-    "(a 14-herb Ayurvedic tea, Rs 599 for 50 bags, formulated by Dr. Bimal Chhajer MBBS MD). "
+    "You are a senior creative director for Divya Patel's Digital University — "
+    "an affordable platform selling 21st-century digital & social media courses with "
+    "lifetime access, government certification, and an automatic 70% affiliate commission "
+    "per referral. Target audience: educated leads — students, housewives, business owners, "
+    "job-holders wanting extra income. Lead channel: Instagram DMs after seeing Meta ads. "
     "Given one ad ROOT (a persuasion mechanism + story), you write a slate of DIFFERENT "
-    "executable versions of that root for OUR product -- varying the angle, hook, and "
+    "executable versions of that root for OUR brand — varying the angle, hook, and "
     "medium, never repeating one idea with a synonym swap. "
-    "NMC/FSSAI rule that trips people up most: a health-benefit claim's GRAMMATICAL SUBJECT "
-    "must be the ingredient, never the product/tea/blend. WRONG: 'Our tea, with Brahmi, "
-    "supports focus' (product is the subject). RIGHT: 'Brahmi is traditionally used to "
-    "support cognitive function' (ingredient is the subject), said separately from any "
-    "product claim. When in doubt, prefer a Type A headline (broad wellness/ritual language "
-    "no claim at all, e.g. 'A moment of calm in every cup') or Type B (names the consumer's "
-    "worry as a question, makes no product claim) over a Type C ingredient claim -- only use "
-    "a Type C claim by lifting one of the APPROVED CLAIMS below verbatim or near-verbatim, "
-    "with the ingredient as the subject. Never invent a new health claim. No disease/cure "
-    "words, no outcome timelines ('in 7 days'). "
-    "TWO MORE THINGS THAT FAIL EVERY TIME: (1) The doctor's name is baked into the product's "
-    "own name ('Dr. Bimal's Arjuna Cardio Care Tea') -- so refer to the product ONLY as "
-    "'Arjuna Cardio Care Tea' or 'the tea' everywhere in the headline/hook/script/scenes; "
-    "the full name with 'Dr. Bimal's' and any doctor mention belongs ONLY in the disclaimer "
-    "line, in the exact form 'Formulated by Dr. Bimal Chhajer MBBS MD' -- never mid-copy, "
-    "never next to a benefit statement. (2) NEVER write in a customer-testimonial voice "
-    "('I discovered...', 'my secret is...', 'now I feel...', 'it changed my life') -- that's "
-    "unverified social proof and is banned. Write either as a neutral narrator/brand voice "
-    "speaking TO the consumer (second person 'you'), or the product itself speaking -- never "
-    "as a customer recounting their own personal results. Return ONLY JSON."
+    "COMPLIANCE RULES THAT TRIP PEOPLE UP: "
+    "(1) NEVER guarantee specific income — 'earn ₹50K/month guaranteed' is banned. Use "
+    "'earning potential' or 'income opportunity' with disclaimer. "
+    "(2) NEVER promise jobs/placement — 'guaranteed placement' is banned. Use 'career support' "
+    "or 'job-ready skills'. "
+    "(3) NEVER use MLM/pyramid language — 'passive income', 'money while you sleep', "
+    "'chain system' triggers Meta's rejection + legal risk. This is AFFILIATE marketing. "
+    "(4) Income testimonials MUST have disclaimer: 'Individual results may vary'. "
+    "(5) Certification claims must name the SPECIFIC certifying body, not just 'government certified'. "
+    "(6) Urgency/scarcity ('last 5 seats') must be genuinely true, not evergreen fake scarcity. "
+    "(7) NEVER use fake testimonials or stock-photo 'students'. "
+    "(8) The tone should be conversational, relatable, and empowering — NOT pushy or scammy. "
+    "Think of a friend who found something good and is genuinely sharing it. "
+    "LANGUAGE: Use Hindi or Hinglish for maximum relatability with Indian audience. English "
+    "is fine for professional/corporate-targeting versions. "
+    "Return ONLY JSON."
 )
-
-
-def _approved_claims_block() -> str:
-    from compliance.validate import load_ruleset
-    r = load_ruleset()
-    lines = []
-    for herb, info in (r.get("approved_ingredient_claims") or {}).items():
-        for claim in info.get("claims") or []:
-            lines.append(f'  - "{claim}"')
-    return "\n".join(lines) or "  (none on file)"
 
 
 def _prompt(root: dict, counts: dict[str, int]) -> str:
     total = sum(counts.values())
-    return f"""APPROVED INGREDIENT CLAIMS (the ONLY health-benefit sentences allowed, ingredient as subject):
-{_approved_claims_block()}
-
-ROOT
+    return f"""ROOT
   name: {root.get('name')}
   mechanism: {root.get('mechanism')}
   visual motif: {root.get('visual_motif')}
-  story (product speaking): {root.get('story') or '(not captured for this root -- infer one from the mechanism/motif)'}
+  story (brand speaking): {root.get('story') or '(not captured — infer from mechanism/motif)'}
   line of attack: {root.get('line_of_attack_type') or '?'} — {root.get('line_of_attack') or ''}
   reason to believe: {root.get('reason_to_believe') or ''}
   attributes — verbal: {root.get('attributes_verbal') or ''}; visual: {root.get('attributes_visual') or ''}
 
-Write {total} DIFFERENT executable versions of this root for our tea:
-  - {counts['image']} IMAGE versions
-  - {counts['audio']} AUDIO versions (a person speaking -- reel/ad voiceover)
-  - {counts['video']} VIDEO versions (short-form, scene by scene)
+OUR BUSINESS DETAILS:
+  - Affordable digital/social media courses
+  - Lifetime access + government certification
+  - Automatic affiliate partner on purchase (70% commission per referral)
+  - No targets, no pressure, no chain system
+  - Target: students, housewives, business owners, job-holders
+  - Lead channel: Instagram DMs
 
-Vary the angle/hook across versions of the same medium. Every version speaks about OUR
-14-herb Ayurvedic tea, not the competitor's product or ingredient.
+Write {total} DIFFERENT executable versions of this root for our brand:
+  - {counts['image']} IMAGE versions (static ad creatives for Meta)
+  - {counts['audio']} AUDIO versions (reel voiceover / ad audio)
+  - {counts['video']} VIDEO versions (short-form reels, scene by scene)
+
+Vary the angle/hook across versions. Each should target a slightly different
+sub-audience or emotional trigger. Use Hindi/Hinglish for most versions, English
+for 1-2 professional-targeting ones.
 
 Separately, ESTIMATE capacity: for each medium, how many genuinely DIFFERENT versions
-(different angle/hook/layout — not synonym swaps) could this specific root actually support
-before you'd be repeating yourself? A visual concept usually supports more distinct cuts
-(different herb headlining, different layout, different color/mood) than a video does
-(fewer meaningfully different scene structures before repetition). Give a real number per
-medium for THIS root, not a generic default.
+could this root support before you'd be repeating yourself?
 
 Return JSON: {{
   "version_capacity": {{
@@ -97,16 +89,19 @@ Return JSON: {{
   "versions": [
   {{
     "medium": "image"|"audio"|"video",
-    "version_name": "<short label, e.g. 'Morning ritual angle'>",
+    "version_name": "<short label, e.g. 'Housewife freedom angle'>",
+    "target_sub_audience": "<who this version speaks to — e.g. 'housewives wanting independence'>",
+    "language": "hindi"|"hinglish"|"english",
     "headline": "<headline for this version>",
-    "hook": "<one line: the specific angle/twist for this version>",
+    "hook": "<one line: the specific angle/twist>",
     "image_prompt": "<only if medium=image: a full image-generation prompt>",
     "key_visual_elements": "<only if medium=image: one line>",
     "script": "<only if medium=audio: the full VO script>",
     "tone": "<only if medium=audio: one line>",
     "scenes": [{{"visual": "...", "vo_line": "...", "on_screen_text": "..."}}],
     "duration_sec": 15,
-    "disclaimer": "<required disclaimer line, e.g. 'Formulated by Dr. Bimal Chhajer. Individual results may vary.'>"
+    "cta": "<call to action — DM us / Link in bio / Comment 'YES'>",
+    "disclaimer": "<required disclaimer if income/earning is mentioned>"
   }}
 ]}}
 ("scenes" and "duration_sec" only for medium=video; "duration_sec" also for medium=audio.)"""
@@ -120,10 +115,7 @@ def _version_text(v: dict) -> str:
 
 
 def _build_versions(root_like: dict, counts: dict[str, int]) -> tuple[list[dict], dict]:
-    """Shared generation core: root_like just needs mechanism/visual_motif/story/etc
-    fields -- works the same whether it's a catalogued root or one ad's own analysis
-    (rootfinder.analyze's Gemini output uses the identical field names)."""
-    from compliance.validate import validate_copy  # local import: optional dep, keep analyze.py light
+    from compliance.validate import validate_copy
 
     out = gemini_json(_SYSTEM, _prompt(root_like, counts), max_tokens=6000)
     versions = out.get("versions") or []
@@ -139,7 +131,6 @@ def _build_versions(root_like: dict, counts: dict[str, int]) -> tuple[list[dict]
 
 
 def generate(root_id: str, *, n_image: int = 1, n_audio: int = 1, n_video: int = 1) -> list[dict]:
-    """Generate the version slate for one named root and persist it on that root."""
     cat = store.catalogue_load()
     root = next((r for r in cat["roots"] if r["root_id"] == root_id), None)
     if not root:
@@ -154,7 +145,6 @@ def generate(root_id: str, *, n_image: int = 1, n_audio: int = 1, n_video: int =
 
 
 def _pseudo_root(m: dict) -> dict:
-    """Build a root_like dict from one analyzed ad's own storyboard fields."""
     r = m.get("root") or {}
     name = m.get("headline") or r.get("root_id") or r.get("candidate_name") or m.get("ad_id")
     return {"name": name, **{k: r.get(k) for k in (
@@ -163,15 +153,11 @@ def _pseudo_root(m: dict) -> dict:
 
 
 def generate_for_ad(m: dict, *, n_image: int = 1, n_audio: int = 1, n_video: int = 1) -> tuple[list[dict], dict]:
-    """Generate a version slate straight from one ad's own analysis (no catalogued
-    root needed) -- always written as our own pitch for our tea, never a reskin of
-    that ad's actual competitor copy. Returns (versions, version_capacity)."""
     counts = {"image": n_image, "audio": n_audio, "video": n_video}
     return _build_versions(_pseudo_root(m), counts)
 
 
 def run_for_all_ads(*, force: bool = False, workers: int = 4, limit: int | None = None) -> None:
-    """Generate versions for every analyzed, non-noise ad in the matches table."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
     matches = store.matches_all()
@@ -187,9 +173,6 @@ def run_for_all_ads(*, force: bool = False, workers: int = 4, limit: int | None 
         except Exception as e:  # noqa: BLE001
             return m, str(e)
 
-    # Flush to Supabase every FLUSH_EVERY completed ads (grouped by competitor) instead
-    # of only at the very end -- a crash/kill mid-run then loses at most one batch, not
-    # the whole run, and progress is inspectable while it's still going.
     FLUSH_EVERY = 20
     pending: dict[str, list[dict]] = {}
     ok = fail = since_flush = 0
@@ -209,7 +192,7 @@ def run_for_all_ads(*, force: bool = False, workers: int = 4, limit: int | None 
             if since_flush >= FLUSH_EVERY:
                 for competitor, ms in pending.items():
                     store.matches_save(competitor, ms)
-                print(f"    -- flushed {since_flush} to Supabase --")
+                print(f"    -- flushed {since_flush} --")
                 pending = {}
                 since_flush = 0
 
@@ -227,8 +210,8 @@ if __name__ == "__main__":
     ap.add_argument("--image", type=int, default=1)
     ap.add_argument("--audio", type=int, default=1)
     ap.add_argument("--video", type=int, default=1)
-    ap.add_argument("--all-ads", action="store_true", help="generate per-ad, for every analyzed ad")
-    ap.add_argument("--force", action="store_true", help="with --all-ads: redo ads that already have versions")
+    ap.add_argument("--all-ads", action="store_true")
+    ap.add_argument("--force", action="store_true")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--workers", type=int, default=4)
     a = ap.parse_args()

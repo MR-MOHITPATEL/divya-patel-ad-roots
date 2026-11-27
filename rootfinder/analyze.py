@@ -4,13 +4,12 @@ Root-match for scraped competitor ads.
 For each ad:
   1. vision model reads the image + copy -> is it a real root? match to a catalogue
      root, or propose a candidate root
-  2. judge whether the root can work for our brand (Dr. Bimal's Arjuna tea)
+  2. judge whether the root can work for our brand (Divya's digital university + affiliate)
 
-Output goes to Supabase (matches / roots / candidates). Matched ads are appended
+Output goes to storage (matches / roots / candidates). Matched ads are appended
 to the root's competitor_examples; candidates are listed for the team to name.
 
-compliance/ holds the encoded NMC/FSSAI ruleset but is not wired to anything
-right now — kept for reference.
+Adapted for: Digital education / affiliate marketing / online course space.
 """
 from __future__ import annotations
 
@@ -92,15 +91,16 @@ def merge_candidate_into_root(name: str, root_id: str) -> None:
 
 
 _SYSTEM = (
-    "You are a senior performance-creative strategist for Indian health & wellness brands. "
+    "You are a senior performance-creative strategist specializing in Indian digital education, "
+    "online course, affiliate marketing, and 'earn from home' advertising on Meta (Facebook/Instagram). "
     "You reverse-engineer the AD ROOT of a competitor ad: the reusable creative concept = "
-    "persuasion mechanism + visual motif (NOT the product, condition or copy wording). "
+    "persuasion mechanism + visual motif (NOT the specific course, price, or brand name). "
     "Two ads share a root if a strategist would rebuild them from the same recipe. "
     "You also storyboard the ad the way a strategist would in a creative review: what line "
-    "of attack it opens with (problem / situation / feature / functionality / benefit), "
+    "of attack it opens with (problem / aspiration / transformation / social-proof / fear / opportunity), "
     "the reason to believe backing its claim, the attributes it pushes in words and in the "
-    "visual, and the underlying story written as the product itself speaking to the "
-    "consumer. Return ONLY JSON."
+    "visual, and the underlying story written as the brand speaking to the consumer. "
+    "Return ONLY JSON."
 )
 
 
@@ -126,26 +126,25 @@ COMPETITOR AD
   (image is attached)
 
 First decide if this is even a ROOT worth cataloguing:
-  - designed_creative = a deliberately built ad (headline/copy baked into the image, a
-    persuasion structure, infographic / comparison / lifestyle / testimonial layout).
-  - NOT a root = plain product-on-white pack shot, flavour/variant showcase, bare catalog
-    image, price-only banner, logo card. Mark these designed_creative=false.
+  - designed_creative = a deliberately built ad with a persuasion structure (transformation
+    story, comparison layout, income proof, certification showcase, mentor authority,
+    problem-agitation, social proof display, urgency layout, testimonial card, etc.)
+  - NOT a root = plain logo, generic stock photo with no concept, random product listing,
+    event announcement with no creative structure, simple text post. Mark designed_creative=false.
 
 Also storyboard it, the way a strategist breaks down a creative in review:
   - line_of_attack_type: what angle does it OPEN with — is it leading with a problem,
-    a situation, a feature, a functionality, or a straight benefit?
-  - line_of_attack: one line naming the specific problem/situation/feature/functionality/
-    benefit it leads with.
-  - reason_to_believe: one line — why should the consumer believe the claim? Usually the
-    ingredient/mechanism/credential doing the proving (e.g. "has Moringa -> metabolic support"
-    is the RTB behind a 'not your regular drink' claim).
-  - attributes_verbal: one line — the product attributes/claims pushed in the WORDS (copy,
-    headline, labels on the image).
-  - attributes_visual: one line — the product attributes/cues pushed in the VISUAL itself
-    (e.g. two products shown together = an "inside+outside" attribute, not stated in words).
-  - story: 2-3 sentences, written as the PRODUCT ITSELF SPEAKING to the consumer, e.g.
-    "Wait — I'm not your regular tea. I've got Arjuna in me, so your heart is safe with me."
-    This is the ad's actual pitch in first person, not a description of the ad.
+    an aspiration, a transformation, social-proof, fear, or an opportunity?
+  - line_of_attack: one line naming the specific problem/aspiration/transformation/proof/
+    fear/opportunity it leads with.
+  - reason_to_believe: one line — why should the consumer believe this? The credential,
+    the number, the testimonial, the certification doing the proving.
+  - attributes_verbal: one line — what the ad pushes in WORDS (copy, headline, text on image).
+  - attributes_visual: one line — what the ad pushes through the VISUAL (e.g. split-screen
+    = transformation, phone screenshot = income proof, certificate = legitimacy).
+  - story: 2-3 sentences, written as the BRAND SPEAKING to the consumer, e.g.
+    "Hey, you're stuck in that 9-5 rut, right? What if I told you there's a way to learn
+    digital skills, get certified, and start earning from home? Join 5000+ people who already did."
   - root_kind: is the reusable asset here the LAYOUT (has to look basically like this to
     work), the STORY (this pitch could be told through a completely different visual —
     single image, carousel, video), or BOTH equally load-bearing? -> "visual"|"narrative"|"both"
@@ -153,8 +152,8 @@ Also storyboard it, the way a strategist breaks down a creative in review:
 Return JSON:
 {{
   "designed_creative": true|false,
-  "creative_type": "infographic"|"comparison"|"lifestyle"|"testimonial"|"ugc"|"ingredient-showcase"|"product-shot"|"catalog"|"minimal"|"text-post",
-  "root_strength": 0.0-1.0,   // how much this is a reusable, transplantable concept vs a one-off photo
+  "creative_type": "transformation"|"comparison"|"income-proof"|"certification"|"testimonial"|"problem-agitation"|"social-proof"|"urgency"|"mentor-authority"|"lifestyle"|"infographic"|"carousel-story"|"ugc"|"minimal"|"text-post"|"product-shot",
+  "root_strength": 0.0-1.0,   // how much this is a reusable, transplantable concept vs a one-off
   "noise_reason": "<if root_strength < 0.4, one line why this isn't a root>",
   "root_id": "<known id if it matches, else null>",
   "match_confidence": 0.0-1.0,
@@ -162,16 +161,16 @@ Return JSON:
   "candidate_name": "<short name for the new root, or null>",
   "mechanism": "<one line: how this ad persuades>",
   "visual_motif": "<one line: the reusable visual recipe>",
-  "line_of_attack_type": "problem"|"situation"|"feature"|"functionality"|"benefit",
+  "line_of_attack_type": "problem"|"aspiration"|"transformation"|"social-proof"|"fear"|"opportunity",
   "line_of_attack": "<one line>",
   "reason_to_believe": "<one line>",
   "attributes_verbal": "<one line>",
   "attributes_visual": "<one line>",
-  "story": "<2-3 sentences, product speaking to the consumer>",
+  "story": "<2-3 sentences, brand speaking to the consumer>",
   "root_kind": "visual"|"narrative"|"both",
   "fits_our_brand": "yes"|"no"|"conditional",
-  "fit_reason": "<why it does / doesn't work for Dr. Bimal's Arjuna Cardio Care Tea (a 14-herb ayurvedic tea, NOT research-backed at product level, must follow NMC/FSSAI: ingredient-led claims only, no disease promises, no outcome timelines, doctor only as 'Formulated by')>",
-  "adaptation_hint": "<one line: what to change to run this root compliantly for our tea>"
+  "fit_reason": "<why it does / doesn't work for Divya's digital university + affiliate program — a company selling affordable digital/social media courses with lifetime access, government certification, and a 70% affiliate commission model. Target: educated leads — students, housewives, business owners wanting extra income. Lead channel: Instagram DMs.>",
+  "adaptation_hint": "<one line: what to change to run this root for our courses + affiliate program>"
 }}"""
 
 
@@ -199,8 +198,6 @@ def analyze_ad(ad: dict, roots: list[dict], candidates: list[dict] | None = None
         or not r.get("designed_creative", True)
         or (r.get("root_strength") or 0) < 0.4
     )
-    # NOTE: no compliance check here — competitors don't follow our rules and it
-    # doesn't matter.
     return rec
 
 
@@ -256,11 +253,6 @@ def run(terms: list[str] | None = None, *, force: bool = False, workers: int = 4
         [ADS_DIR / f"{slug(t)}.json" for t in terms]
         if terms else sorted(ADS_DIR.glob("*.json"))
     )
-    # analyze_ad() rebuilds each match record from scratch, with no "versions"/
-    # "version_capacity" keys at all -- re-analyzing (--force) would otherwise
-    # silently wipe out anything rootfinder.versions generated for that ad, since
-    # matches_save() upserts the whole row. Carry those two fields forward from
-    # whatever's already on Supabase.
     prior_versions = {m["ad_id"]: (m.get("versions"), m.get("version_capacity"))
                       for m in store.matches_all() if m.get("versions")}
     for f in files:
@@ -279,9 +271,6 @@ def run(terms: list[str] | None = None, *, force: bool = False, workers: int = 4
         print(f">> {competitor}: {len(todo)} new / {len(ads)} ads")
         results = []
         if todo:
-            # Only feed the recurring candidates back to the model. A 1-2 example
-            # candidate is noise the reviewer will likely discard — sending all of
-            # them just bloats input tokens (~2-3x) and doesn't improve matching.
             cands_hint = sorted(
                 (c for c in cat.get("candidates", []) if len(c.get("examples") or []) >= 3),
                 key=lambda c: len(c.get("examples") or []), reverse=True,

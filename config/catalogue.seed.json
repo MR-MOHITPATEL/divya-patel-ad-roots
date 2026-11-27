@@ -1,65 +1,108 @@
 {
-  "updated_at": "2026-09-07",
+  "updated_at": "2026-11-26",
   "roots": [
     {
-      "root_id": "ingredient-bubbles",
-      "name": "Ingredient Bubbles Around Product",
+      "root_id": "transformation-narrative",
+      "name": "Transformation Narrative",
       "status": "named",
-      "mechanism": "ingredient transparency — 'look how much goodness is inside'",
-      "why_it_works": "Each floating sphere is a proof point; the ring of ingredients around a single product makes a multi-herb formula feel generous and premium without a word of claim.",
-      "visual_motif": "Product centered and upright; translucent spheres arranged in a ring around it, one raw ingredient per sphere, each with a small label; soft radial glow; price/CTA badge in a corner.",
+      "mechanism": "Before/after identity shift — shows the person's life transformation after taking the course or joining the program",
+      "why_it_works": "Aspirational identification — the viewer sees themselves in the 'before' and wants the 'after'. Works especially well for housewives and job-holders who dream of a different life.",
+      "visual_motif": "Split-screen or side-by-side: left = old life (dull colors, stressed, office/kitchen), right = new life (bright, confident, laptop/phone, earning). Sometimes a single person shown in two contexts.",
       "fits_our_brand": "yes",
-      "compliance_notes": "Sphere labels must be ingredient names only, never 'X treats/controls Y'. If a benefit is shown per ingredient, use the approved Rule 4 phrasing ('Arjuna Chhal - supports healthy lipid levels'). No disease words on labels. Disclaimer if any benefit text appears.",
-      "competitor_examples": [],
-      "our_executions": [
+      "compliance_notes": "Must use real stories, not fabricated. Income figures need 'results may vary' disclaimer. Cannot guarantee the transformation.",
+      "competitor_examples": [
         {
-          "product": "Arjuna Cardio Care Tea",
-          "image_url": "",
-          "ad_id": "",
-          "date": "",
-          "note": "Hindi - herbs in glowing circles around the box, Dr. Bimal photo on pack"
+          "brand": "MHB Academy",
+          "ad_id": "example_mhb_1",
+          "note": "From Corporate Life → To Fitness Coach Life — split image, two versions of the same woman",
+          "first_seen": "2026-11-19"
         }
-      ]
+      ],
+      "our_executions": []
     },
     {
-      "root_id": "botanical-habitat",
-      "name": "Botanical Habitat / Forest Floor",
+      "root_id": "income-proof-screenshot",
+      "name": "Income Proof / Screenshot",
       "status": "named",
-      "mechanism": "naturalness & provenance — the product belongs in nature",
-      "why_it_works": "Placing the product in a lush natural scene with its raw ingredients scattered around it makes 'plant-based / ayurvedic' feel literal and unprocessed; the eye reads 'this came from the earth'.",
-      "visual_motif": "Product resting on a mossy forest floor or among foliage; raw herbs/roots arranged naturally around the base; ingredient names floating with thin callout lines; diffused daylight; earthy green-brown palette.",
-      "fits_our_brand": "yes",
-      "compliance_notes": "Floating labels = ingredient names only. Any headline stays Type A (broad wellness) or Type C (ingredient-led). No 'for PCOS / diabetes / cholesterol' framing like the competitor uses.",
+      "mechanism": "Social proof through visible earnings — payment screenshots, bank notifications, commission dashboards showing real numbers",
+      "why_it_works": "Nothing convinces like seeing real money. Addresses the 'is this real or scam?' objection head-on. The specific numbers make it feel tangible and achievable.",
+      "visual_motif": "Phone screen showing payment notification / bank credit / affiliate dashboard with earnings. Sometimes blurred partially for 'privacy'. Often held in hand or overlaid on a lifestyle photo.",
+      "fits_our_brand": "conditional",
+      "compliance_notes": "Screenshots MUST be genuine. Must add disclaimer: 'Individual results may vary'. Cannot imply everyone earns this amount. Avoid showing unrealistic figures.",
       "competitor_examples": [],
-      "our_executions": [
-        {
-          "product": "Arjuna Cardio Care Tea",
-          "image_url": "",
-          "ad_id": "",
-          "date": "",
-          "note": "Box in a forest, herbs scattered, Hindi labels around"
-        }
-      ]
+      "our_executions": []
     },
     {
-      "root_id": "pile-vs-one",
-      "name": "Pile vs One (VS Comparison)",
+      "root_id": "certification-career-badge",
+      "name": "Certification + Career Badge",
       "status": "named",
-      "mechanism": "simplification + loss-aversion — 'stop juggling many, switch to one'",
-      "why_it_works": "A hand overflowing with many pills/bottles next to a hand holding one product dramatizes effort and cost; the contrast does the persuading, no claim needed.",
-      "visual_motif": "Split frame or two hands: left = messy pile of generic pills / many supplement bottles; right = one clean hand holding our single product; short 'why take X when...' headline; per-day price badge.",
+      "mechanism": "Authority and credibility through visible certification — government logo, certificate mockup, recognized body name",
+      "why_it_works": "Indian audience deeply values certificates and official recognition. A 'government certified' course feels safer than a random online course. Answers 'is this legit?' instantly.",
+      "visual_motif": "Certificate mockup prominently displayed, often with government/NSDC logo, gold border, person's name filled in. Sometimes shown being held by a smiling graduate.",
       "fits_our_brand": "yes",
-      "compliance_notes": "Headline stays Type B question ('15 alag-alag cheezein kyun lein...'). Do not claim our one product replaces the medical function of the pile. Comparison is about count/convenience/cost, not efficacy.",
+      "compliance_notes": "Must name the SPECIFIC certifying body — 'government certified' alone is too vague and potentially misleading. The certification must be real and verifiable.",
       "competitor_examples": [],
-      "our_executions": [
-        {
-          "product": "Arjuna Cardio Care Tea",
-          "image_url": "",
-          "ad_id": "",
-          "date": "",
-          "note": "15 supplement bottles in one hand vs the tea box in the other"
-        }
-      ]
+      "our_executions": []
+    },
+    {
+      "root_id": "problem-agitation-escape",
+      "name": "Problem-Agitation-Escape",
+      "status": "named",
+      "mechanism": "Names the viewer's current pain (low salary, boring job, no independence, financial stress) then presents the course/program as the escape route",
+      "why_it_works": "Hits the emotional nerve first. The viewer feels 'that's me' before the solution appears. Works across all demographics — students (no job), housewives (no income), job-holders (stuck).",
+      "visual_motif": "Dark/frustrated imagery at top transitioning to bright/hopeful at bottom. Often uses text-heavy design with the problem in large font and solution below. Sometimes a person looking stressed then looking up.",
+      "fits_our_brand": "yes",
+      "compliance_notes": "Fine as long as the 'escape' doesn't promise guaranteed income or guaranteed job. Keep it about skills and opportunity, not certainty.",
+      "competitor_examples": [],
+      "our_executions": []
+    },
+    {
+      "root_id": "social-proof-counter",
+      "name": "Social Proof Counter",
+      "status": "named",
+      "mechanism": "Large numbers of existing students / success stories / ratings create herd-following behavior",
+      "why_it_works": "If 5000+ people already did it, it must be safe. Reduces risk perception. The specific number (not 'many students') makes it concrete.",
+      "visual_motif": "Prominent counter number (5000+, 10,000+, 4.8★), often with student faces / grid of small photos / testimonial cards arranged around it.",
+      "fits_our_brand": "yes",
+      "compliance_notes": "Numbers must be real and verifiable. 'X students enrolled' is different from 'X students earning' — the latter needs proof.",
+      "competitor_examples": [],
+      "our_executions": []
+    },
+    {
+      "root_id": "urgency-scarcity-batch",
+      "name": "Urgency / Scarcity / Batch Closing",
+      "status": "named",
+      "mechanism": "Limited seats, next batch starting soon, offer expiring — creates fear of missing out",
+      "why_it_works": "Converts fence-sitters. Indian audience responds strongly to 'last date' and 'limited seats' — educational context makes it feel more legitimate than ecommerce scarcity.",
+      "visual_motif": "Countdown timer, 'Only X seats left' badge, 'Batch starts [date]' banner. Often red/orange accent colors for urgency. Sometimes a calendar or clock icon.",
+      "fits_our_brand": "conditional",
+      "compliance_notes": "Must be GENUINELY true. Perpetual 'last 5 seats' or evergreen 'offer ends today' is deceptive advertising under Consumer Protection Act 2019.",
+      "competitor_examples": [],
+      "our_executions": []
+    },
+    {
+      "root_id": "mentor-authority-face",
+      "name": "Mentor / Authority Face",
+      "status": "named",
+      "mechanism": "A credible mentor/founder speaking directly to camera, sharing their expertise and inviting the viewer to learn from them",
+      "why_it_works": "Personal trust — 'I'm learning from THIS person, not a faceless company'. Works especially well in Indian culture where guru/teacher relationship is valued. The face becomes the brand.",
+      "visual_motif": "Person speaking to camera or posed professionally. Often in a studio/office setting. Name + credentials displayed. Sometimes with a subtle background of their achievements (books, awards, screen).",
+      "fits_our_brand": "yes",
+      "compliance_notes": "The mentor must be real. Credentials must be genuine. Cannot make income promises through the mentor's voice.",
+      "competitor_examples": [],
+      "our_executions": []
+    },
+    {
+      "root_id": "comparison-vs-old-way",
+      "name": "Comparison / VS Old Way",
+      "status": "named",
+      "mechanism": "Degree vs digital skills, 9-to-5 job vs freelancing, traditional learning vs online learning — frames the old way as inferior",
+      "why_it_works": "Creates a clear 'aha' moment. The viewer instantly sees why the new option is better. Works well for people already frustrated with the traditional path.",
+      "visual_motif": "Two-column or VS split: left = old way (degree scroll, office cubicle, ₹15K salary), right = new way (laptop, freedom, earning potential). Often with ✗ and ✓ marks.",
+      "fits_our_brand": "yes",
+      "compliance_notes": "Fine as long as it doesn't disparage specific institutions by name or guarantee the 'new way' outcome. Compare the MODEL, not specific competitors.",
+      "competitor_examples": [],
+      "our_executions": []
     }
   ],
   "candidates": []

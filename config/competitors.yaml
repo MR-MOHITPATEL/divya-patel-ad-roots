@@ -1,14 +1,12 @@
-# Competitors to scan for ad roots. Edit freely — no code changes needed.
+# Competitors to scan for ad roots — Digital Education / Affiliate Marketing space.
+# Adapted for Divya Patel's digital university + affiliate business.
 #
 # tier:
 #   every_run   -> scanned on every `run.py scan` and the daily refresh
 #   broad_only  -> scanned only with `run.py scan --broad`
 #
-# page_ids:  the exact Meta Ad Library advertiser page id(s). STRONGLY preferred —
-#            keyword search is unreliable (misses pages, picks reseller pages).
-#            To find one: open facebook.com/ads/library, search the brand, click the
-#            brand's page, copy the number after `view_all_page_id=` in the URL.
-# search:    fallback keyword used only when page_ids is empty.
+# page_ids:  exact Meta Ad Library advertiser page id(s). STRONGLY preferred.
+# search:    fallback keyword when page_ids is empty.
 
 defaults:
   country: IN
@@ -17,192 +15,168 @@ defaults:
   max_ads: 80
 
 competitors:
-  - name: OZiva
-    search: OZiva
-    page_ids: ["603903383105760"]
+
+  # ── DIGITAL MARKETING / ONLINE COURSE EDUCATORS (direct competitors) ──────
+
+  - name: WsCube Tech
+    search: WsCube Tech
+    page_ids: []
     tier: every_run
 
-  - name: Kapiva
-    search: Kapiva
-    page_ids:
-      - "1721818904736494"   # Kapiva
-      - "116128397752155"    # Chronic Health Solutions by Kapiva
-      - "116568587707681"    # Daily Wellness Solutions by Kapiva
-      - "104968639165111"    # Kapiva Performance
-      - "114956504536072"    # Kapiva Wellness
+  - name: Intellipaat
+    search: Intellipaat
+    page_ids: []
     tier: every_run
 
-  - name: Wellbeing Nutrition
-    search: wellbeingnutrition
-    page_ids: ["107959920549143"]
+  - name: Simplilearn
+    search: Simplilearn
+    page_ids: []
     tier: every_run
 
-  - name: Plix
-    search: Plix Life
-    page_ids: ["444025482768886"]
+  - name: Digital Deepak
+    search: Digital Deepak
+    page_ids: []
     tier: every_run
 
-  - name: "&Me"
-    search: "andme"
-    page_ids: []              # TODO: find &Me's Ad Library page id and paste here
-    tier: broad_only
+  - name: MHB Academy
+    search: MHB Academy
+    page_ids: []
+    tier: every_run
 
-  - name: Man Matters
-    search: Man Matters
+  - name: Internshala Trainings
+    search: Internshala Trainings
+    page_ids: []
+    tier: every_run
+
+  - name: Skill Lync
+    search: Skill Lync
+    page_ids: []
+    tier: every_run
+
+  - name: Digital Scholar
+    search: Digital Scholar
+    page_ids: []
+    tier: every_run
+
+  - name: GrowthSchool
+    search: GrowthSchool
+    page_ids: []
+    tier: every_run
+
+  # ── AFFILIATE / EARN-FROM-HOME EDUCATORS (closest to Divya's model) ───────
+
+  - name: Digital Azadi
+    search: Digital Azadi
+    page_ids: []
+    tier: every_run
+
+  - name: SidTalk
+    search: Siddharth Rajsekar
+    page_ids: []
+    tier: every_run
+
+  - name: Leadsark
+    search: Leadsark
+    page_ids: []
+    tier: every_run
+
+  - name: Bizgurukul
+    search: Bizgurukul
+    page_ids: []
+    tier: every_run
+
+  - name: iDigitalPreneur
+    search: iDigital Pre Paid Academy
+    page_ids: []
+    tier: every_run
+
+  - name: Amit Jadhav
+    search: Amit Jadhav
+    page_ids: []
+    tier: every_run
+
+  - name: School of Money
+    search: School of Money
+    page_ids: []
+    tier: every_run
+
+  # ── BIGGER EDTECH (creative inspiration, not direct competitors) ──────────
+
+  - name: upGrad
+    search: upGrad
     page_ids: []
     tier: broad_only
 
-  - name: Be Bodywise
-    search: Bodywise
+  - name: Unacademy
+    search: Unacademy
     page_ids: []
     tier: broad_only
 
-  - name: Traya
-    search: Traya
+  - name: PhysicsWallah
+    search: PhysicsWallah
     page_ids: []
     tier: broad_only
 
-  - name: Setu
-    search: Setu Nutrition
+  - name: Apna
+    search: Apna app
     page_ids: []
     tier: broad_only
 
-  - name: Saffola Life
-    search: Saffola
+  - name: Coursera India
+    search: Coursera
     page_ids: []
     tier: broad_only
 
-  # -- added from team's handwritten competitor list --
-  - name: Jiva Ayurveda
-    search: Jiva Ayurveda
-    page_ids: ["238245198448"]
+  - name: Great Learning
+    search: Great Learning
+    page_ids: []
+    tier: broad_only
+
+  - name: Scaler
+    search: Scaler Academy
+    page_ids: []
+    tier: broad_only
+
+  - name: Newton School
+    search: Newton School
+    page_ids: []
+    tier: broad_only
+
+  # ── FREELANCING / SIDE-HUSTLE EDUCATORS ───────────────────────────────────
+
+  - name: Ishan Sharma
+    search: Ishan Sharma
+    page_ids: []
+    tier: broad_only
+
+  - name: Vaibhav Sisinty
+    search: Vaibhav Sisinty
+    page_ids: []
+    tier: broad_only
+
+  # ── WOMEN-FOCUSED / RESELLER PLATFORMS (Divya's core audience overlap) ────
+
+  - name: Meesho
+    search: Meesho
+    page_ids: []
     tier: every_run
 
-  - name: Zandu
-    search: Zandu
-    page_ids:
-      - "105826340832462"   # Zandu
-      - "710045298859636"   # Zandu Ayurvedic Cough Syrup
-    tier: every_run
+  - name: GlowRoad
+    search: GlowRoad
+    page_ids: []
+    tier: broad_only
 
-  - name: Girnar
-    search: Girnar
-    page_ids: ["754282108050054"]   # Girnar Ayurvedic Pharmacy Pvt Ltd
-    tier: every_run
-
-  - name: Wagh Bakri
-    search: Wagh Bakri
-    page_ids:
-      - "331679525749"      # WaghBakri
-      - "187823041262074"   # Wagh Bakri Tea Lounge
-    tier: every_run
-
-  - name: Himalaya
-    # TODO: handwriting was unclear ("XIAMHYA") — guessed Himalaya Wellness.
-    # Confirm with the team; correct the page_id below if it's a different brand.
-    search: Himalaya Wellness
-    page_ids: ["937356456323066"]
-    tier: every_run
-
-  - name: Blue Tea
-    search: Blue Tea
-    page_ids:
-      - "112576308366991"   # BLUE TEA INDIA
-      - "859536283918131"   # Blue Tea
-    tier: every_run
-
-  - name: Organic India
-    search: Organic India
-    page_ids: ["194411414144"]
-    tier: every_run
-
-  - name: Vahdam
-    # handwritten "Vadham" — the real brand is spelled VAHDAM (VAHDAM India)
-    search: Vahdam
-    page_ids: ["1491430561130722"]
-    tier: every_run
-
-  - name: Zero Block
-    search: Zero Block
-    page_ids: ["127888574561092"]   # ZERO BLOCK Official — low ad volume, confirm this is right
-    tier: every_run
-
-  # -- broad creative-inspiration set: skincare / makeup / haircare / nutrition D2C
-  # brands (not direct cardio-tea competitors) -- team-supplied 2026-09-17. No page_ids
-  # yet, keyword search only; page_ids can be pinned later once confirmed. --
-  - {name: MuscleBlaze, search: MuscleBlaze, page_ids: [], tier: broad_only}
-  - {name: Optimum Nutrition, search: Optimum Nutrition, page_ids: [], tier: broad_only}
-  - {name: Myprotein, search: Myprotein, page_ids: [], tier: broad_only}
-  - {name: The Whole Truth Foods, search: The Whole Truth Foods, page_ids: [], tier: broad_only}
-  - {name: Yogabar, search: Yogabar, page_ids: [], tier: broad_only}
-  - {name: Fast&Up India, search: "Fast&Up India", page_ids: [], tier: broad_only}
-
-  - {name: Minimalist, search: Minimalist, page_ids: [], tier: broad_only}
-  - {name: Dot & Key, search: "Dot & Key", page_ids: [], tier: broad_only}
-  - {name: Foxtale, search: Foxtale, page_ids: [], tier: broad_only}
-  - {name: Aqualogica, search: Aqualogica, page_ids: [], tier: broad_only}
-  - {name: Pilgrim, search: Pilgrim, page_ids: [], tier: broad_only}
-  - {name: The Derma Co., search: "The Derma Co", page_ids: [], tier: broad_only}
-  - {name: Plum, search: Plum Goodness, page_ids: [], tier: broad_only}
-  - {name: Mamaearth, search: Mamaearth, page_ids: [], tier: broad_only}
-  - {name: "Indé Wild", search: "Inde Wild", page_ids: [], tier: broad_only}
-  - {name: "Dr. Sheth's", search: "Dr Sheths", page_ids: [], tier: broad_only}
-  - {name: Hyphen, search: Hyphen Skincare, page_ids: [], tier: broad_only}
-  - {name: Conscious Chemist, search: Conscious Chemist, page_ids: [], tier: broad_only}
-  - {name: Biotique, search: Biotique, page_ids: [], tier: broad_only}
-  - {name: Forest Essentials, search: Forest Essentials, page_ids: [], tier: broad_only}
-  - {name: Kama Ayurveda, search: Kama Ayurveda, page_ids: [], tier: broad_only}
-
-  - {name: SUGAR Cosmetics, search: SUGAR Cosmetics, page_ids: [], tier: broad_only}
-  - {name: Swiss Beauty, search: Swiss Beauty, page_ids: [], tier: broad_only}
-  - {name: "Lakmé", search: "Lakme India", page_ids: [], tier: broad_only}
-  - {name: Nykaa Cosmetics, search: Nykaa Cosmetics, page_ids: [], tier: broad_only}
-  - {name: Renee Cosmetics, search: Renee Cosmetics, page_ids: [], tier: broad_only}
-  - {name: Colorbar, search: Colorbar Cosmetics, page_ids: [], tier: broad_only}
-  - {name: Faces Canada, search: Faces Canada, page_ids: [], tier: broad_only}
-  - {name: Blue Heaven, search: Blue Heaven Cosmetics, page_ids: [], tier: broad_only}
-  - {name: Chambor, search: Chambor, page_ids: [], tier: broad_only}
-  - {name: Insight Cosmetics, search: Insight Cosmetics, page_ids: [], tier: broad_only}
-
-  - {name: mCaffeine, search: mCaffeine, page_ids: [], tier: broad_only}
-  - {name: BBlunt, search: BBlunt, page_ids: [], tier: broad_only}
-  - {name: Streax Professional, search: Streax Professional, page_ids: [], tier: broad_only}
-  - {name: Love Beauty & Planet, search: "Love Beauty and Planet India", page_ids: [], tier: broad_only}
-  - {name: Arata, search: Arata, page_ids: [], tier: broad_only}
-  - {name: Ktein, search: Ktein, page_ids: [], tier: broad_only}
-  - {name: Earth Rhythm, search: Earth Rhythm, page_ids: [], tier: broad_only}
-  - {name: WishCare, search: WishCare, page_ids: [], tier: broad_only}
-  - {name: Curl Up, search: Curl Up, page_ids: [], tier: broad_only}
-
-  - {name: WOW Skin Science, search: WOW Skin Science, page_ids: [], tier: broad_only}
-  - {name: Just Herbs, search: Just Herbs, page_ids: [], tier: broad_only}
-  - {name: Juicy Chemistry, search: Juicy Chemistry, page_ids: [], tier: broad_only}
-  - {name: Soulflower, search: Soulflower, page_ids: [], tier: broad_only}
-  - {name: Earth Science Aesthetics, search: Earth Science, page_ids: [], tier: broad_only}
-  - {name: Ras Luxury Oils, search: Ras Luxury Oils, page_ids: [], tier: broad_only}
-  - {name: Shankara, search: Shankara, page_ids: [], tier: broad_only}
-  - {name: Tjori, search: Tjori, page_ids: [], tier: broad_only}
-
-  # -- from the handwritten/screenshot list, not already covered above --
-  - {name: "RE' EQUIL", search: "RE EQUIL", page_ids: [], tier: broad_only}
-  - {name: Beauty of Joseon, search: Beauty of Joseon India, page_ids: [], tier: broad_only}
-  - {name: Reginald Men, search: Reginald Men, page_ids: [], tier: broad_only}
-  - {name: Neutrogena, search: Neutrogena India, page_ids: [], tier: broad_only}
-  - {name: La Shield, search: La Shield Sunscreen, page_ids: [], tier: broad_only}
-  - {name: Cetaphil, search: Cetaphil India, page_ids: [], tier: broad_only}
-  - {name: Molecular Company, search: Molecular Company, page_ids: [], tier: broad_only}
-  - {name: Personal Touch Skincare, search: Personal Touch Skincare, page_ids: [], tier: broad_only}
-  - {name: Vaseline, search: Vaseline India, page_ids: [], tier: broad_only}
-  - {name: Venusia, search: Venusia Max, page_ids: [], tier: broad_only}
-  - {name: Fixderma, search: Fixderma, page_ids: [], tier: broad_only}
-  - {name: SunScoop, search: SunScoop, page_ids: [], tier: broad_only}
-  - {name: Dermatouch, search: Dermatouch, page_ids: [], tier: broad_only}
-  - {name: Suncros, search: Suncros Sunscreen, page_ids: [], tier: broad_only}
-  - {name: Lotus Herbals, search: Lotus Herbals, page_ids: [], tier: broad_only}
+  - name: Sheroes
+    search: SHEROES
+    page_ids: []
+    tier: broad_only
 
 keyword_searches:
-  - arjuna tea
-  - cardio tea
-  - cholesterol ayurvedic
-  - heart wellness herbal
-  - ashwagandha tea
+  - digital marketing course
+  - affiliate marketing earn
+  - earn from home course
+  - online course certification
+  - freelancing course india
+  - digital skills course
+  - work from home opportunity
+  - social media marketing course

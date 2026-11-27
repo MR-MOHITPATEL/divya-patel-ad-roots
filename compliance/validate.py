@@ -1,15 +1,15 @@
 """
-Two-layer compliance checker for Dr. Bimal's Arjuna Cardio Care Tea ad copy.
+Two-layer compliance checker for Divya Patel's Digital University ad copy.
 
 Layer 1 — deterministic keyword / regex (fast, offline).
-Layer 2 — one LLM call for the judgment calls (subject detection, headline type,
-          doctor role) and a compliant rewrite.
+Layer 2 — one LLM call for judgment calls (income promise detection, MLM language,
+          fake urgency, testimonial validity) and a compliant rewrite.
 
 Used for:
-  - our generated adaptation briefs  -> hard gate
-  - competitor ads                   -> "how usable is this for us as-is"
+  - our generated ad versions  -> hard gate
+  - competitor ads             -> "how usable is this for us as-is"
 
-Rules: compliance/ruleset.yaml  (REBUILD_SPEC.md §5)
+Rules: compliance/ruleset.yaml
 """
 from __future__ import annotations
 
@@ -67,82 +67,69 @@ def load_ruleset() -> dict:
 def _layer1(text: str, v: Verdict) -> None:
     r = load_ruleset()
     low = text.lower()
-    lines = [ln.strip() for ln in re.split(r"[\n\.\!\?]", text) if ln.strip()]
 
-    for verb in r["verbs"]["banned"]:
-        if re.search(rf"\b{re.escape(verb)}\b", low):
-            v.add(Finding("verbs.banned", FAIL,
-                          f"Banned claim word: '{verb}'", verb))
-    for verb in r["verbs"].get("banned_hindi", []):
-        if verb in text:
-            v.add(Finding("verbs.banned_hindi", FAIL,
-                          f"Banned claim word (Hindi): '{verb}'", verb))
+    for phrase in r["verbs"]["banned"]:
+        if re.search(rf"\b{re.escape(phrase)}\b", low):
+            v.add(Finding("banned_phrase", FAIL,
+                          f"Banned phrase: '{phrase}'", phrase))
+    for phrase in r["verbs"].get("banned_hindi", []):
+        if phrase in text:
+            v.add(Finding("banned_phrase_hindi", FAIL,
+                          f"Banned phrase (Hindi): '{phrase}'", phrase))
 
     for pat in r.get("timeline_patterns", []):
         m = re.search(pat, low)
         if m:
-            v.add(Finding("timeline", FAIL,
-                          "Outcome-timeline claim — not allowed (no product-level study)",
+            v.add(Finding("timeline_promise", FAIL,
+                          "Income-timeline promise — not allowed without substantiation",
                           m.group(0)))
 
-    doc = r["doctor"]
-    name_res = [n.lower() for n in doc["names"]]
-    allowed = [ap.lower() for ap in doc["allowed_patterns"]]
-    for ln in text.split("\n"):
-        ll = ln.lower().strip()
-        if not any(n in ll for n in name_res):
-            continue
-        if any(b.lower() in ll for b in doc["banned_near_name"]):
-            v.add(Finding("doctor.endorsement", FAIL,
-                          "Doctor name appears with a recommendation/endorsement — "
-                          "only 'Formulated by' is allowed", ln.strip()))
-        elif not any(ap in ll or ap in low for ap in allowed):
-            v.add(Finding("doctor.unverified", NEEDS_EDIT,
-                          "Doctor name present but not in the exact 'Formulated by' form — "
-                          "check it makes no claim", ln.strip()))
+    for phrase in r.get("employment_claims", {}).get("banned", []):
+        if phrase.lower() in low or phrase in text:
+            v.add(Finding("employment_guarantee", FAIL,
+                          f"Employment/placement guarantee: '{phrase}'", phrase))
 
-    dt = {**r.get("disease_terms", {}), **r.get("disease_terms_hindi", {})}
-    hit = [term for term in dt if term.lower() in low or term in text]
-    if hit:
-        v.add(Finding("disease_terms", NEEDS_EDIT,
-                      "Disease/biomarker term present — allowed only if an INGREDIENT is the "
-                      "subject + 'helps' (Rule 6C); otherwise swap for a safe term "
-                      f"({', '.join(f'{k}->{dt[k]}' for k in hit)})",
-                      ", ".join(hit)))
+    for phrase in r.get("affiliate_disclosure", {}).get("banned", []):
+        if phrase.lower() in low or phrase in text:
+            v.add(Finding("mlm_language", FAIL,
+                          f"MLM/pyramid language detected: '{phrase}' — use affiliate marketing language instead",
+                          phrase))
+
+    income_re = re.compile(r"(?:earn|कमा|income|salary|₹)\s*[\d,]+.*(?:month|महीन|week|हफ्त|day|दिन)", re.I)
+    m = income_re.search(text)
+    if m:
+        if not any(d in low for d in ("results may vary", "individual results", "परिणाम भिन्न")):
+            v.add(Finding("income_no_disclaimer", NEEDS_EDIT,
+                          "Specific income figure without disclaimer — add 'Individual results may vary'",
+                          m.group(0)))
 
 
 # ── Layer 2 ──────────────────────────────────────────────────────────────────
 
 _L2_SYSTEM = (
-    "You are a compliance analyst for Indian health-product advertising "
-    "(NMC 2023, FSSAI Health Claims 2022, ASCI, DMR Act 1954). "
-    "You judge ad copy for Dr. Bimal's Arjuna Cardio Care Tea — a herbal tea, "
-    "NOT research-backed at the product level. Return ONLY JSON."
+    "You are a compliance analyst for Indian digital education and affiliate marketing "
+    "advertising (ASCI Code, Consumer Protection Act 2019, Meta Advertising Policies). "
+    "You judge ad copy for Divya Patel's Digital University — an affordable course platform "
+    "with a 70% affiliate commission model. Return ONLY JSON."
 )
 
 
 def _l2_prompt(text: str, r: dict) -> str:
-    claims = "\n".join(
-        f"  - {ing} ({d['research'] or 'no citation'}): " + "; ".join(d["claims"])
-        for ing, d in r["approved_ingredient_claims"].items()
-    )
     return f"""AD COPY (headline + body + visible text):
 \"\"\"{text}\"\"\"
 
-Approved ingredient claims (the ONLY health claims allowed for us):
-{claims}
-
 Answer as JSON:
 {{
-  "product_is_claim_subject": true|false,   // is the PRODUCT (tea/brand) the subject of a health-benefit sentence? (Rule 2 -> FAIL if true)
-  "ingredient_is_claim_subject": true|false, // is an INGREDIENT the subject of a 'helps/supports' claim? (Rule 3 -> ok)
-  "headline_type": "A"|"B"|"C"|"D",         // A broad wellness, B consumer-fear question, C ingredient-claim, D banned
-  "doctor_role": "none"|"credential"|"endorsement", // endorsement -> FAIL
-  "disease_name_as_product_promise": true|false,    // disease word used as the product's promise (Rule 5 -> FAIL)
-  "claims_lack_research_backing": true|false,       // any health claim not on the approved list above
-  "unverified_social_proof": true|false,            // 'clinically proven', fake-looking testimonials, before/after
+  "guarantees_specific_income": true|false,         // promises exact ₹ amount with certainty -> FAIL
+  "income_figure_without_disclaimer": true|false,   // mentions income figure but no disclaimer -> NEEDS_EDIT
+  "guarantees_job_placement": true|false,            // promises guaranteed job -> FAIL
+  "uses_mlm_pyramid_language": true|false,           // passive income, chain, money-while-sleeping -> FAIL
+  "fake_urgency": true|false,                        // obviously evergreen 'last 5 seats' type -> NEEDS_EDIT
+  "unverified_testimonial": true|false,              // stock-photo student, too-good-to-be-true story -> NEEDS_EDIT
+  "vague_certification_claim": true|false,           // 'government certified' without naming the body -> NEEDS_EDIT
+  "headline_type": "A"|"B"|"C"|"D",                 // A=aspiration, B=problem-agitation, C=specific-benefit, D=banned
   "issues": ["short phrase", ...],
-  "compliant_rewrite": "A fully compliant version of this copy for our product: broad-wellness or consumer-fear headline (Type A/B) OR ingredient-led claim (Type C) with the citation; ingredient-attributed bullets only; 'Formulated by Dr. Bimal Chhajer MBBS MD' if the doctor appears; keep price/ritual/heritage language. Keep the original language (English/Hindi)."
+  "compliant_rewrite": "A fully compliant version of this copy: aspiration/problem-agitation headline (Type A/B) OR specific-benefit with disclaimers (Type C). Income mentions get disclaimer. Affiliate = earning opportunity, not guaranteed income. Certification names the body. Keep original language (Hindi/English/Hinglish)."
 }}"""
 
 
@@ -160,40 +147,36 @@ def _layer2(text: str, v: Verdict, *, use_llm: bool) -> None:
     v.headline_type = ans.get("headline_type")
     v.rewrite = ans.get("compliant_rewrite") or v.rewrite
 
-    # Reconcile the context-dependent Layer-1 flags with Layer-2 judgment.
-    # Rule 6C: a disease term IS allowed when an ingredient is the subject + "helps"
-    # and the product is not.
-    if ans.get("ingredient_is_claim_subject") and not ans.get("product_is_claim_subject"):
-        v.findings = [f for f in v.findings if f.rule != "disease_terms"]
-        v.status = max((f.severity for f in v.findings), key=lambda s: _ORDER[s], default=PASS)
-
-    if ans.get("product_is_claim_subject"):
-        v.add(Finding("rule2.product_subject", FAIL,
-                      "The product is the subject of a health-benefit claim — "
-                      "must be ingredient-led", "; ".join(ans.get("issues", []))))
-    if ans.get("doctor_role") == "endorsement":
-        v.add(Finding("rule1.doctor", FAIL, "Doctor endorses/recommends the product"))
-    if ans.get("disease_name_as_product_promise"):
-        v.add(Finding("rule5.disease_promise", FAIL,
-                      "Disease name used as the product's promise"))
+    if ans.get("guarantees_specific_income"):
+        v.add(Finding("income_guarantee", FAIL,
+                      "Guarantees specific income — must use 'earning potential' with disclaimer",
+                      "; ".join(ans.get("issues", []))))
+    if ans.get("income_figure_without_disclaimer"):
+        v.add(Finding("income_no_disclaimer", NEEDS_EDIT,
+                      "Income figure mentioned without 'results may vary' disclaimer"))
+    if ans.get("guarantees_job_placement"):
+        v.add(Finding("job_guarantee", FAIL,
+                      "Guarantees job/placement — use 'placement assistance' or 'career support' instead"))
+    if ans.get("uses_mlm_pyramid_language"):
+        v.add(Finding("mlm_language", FAIL,
+                      "MLM/pyramid language — rewrite as affiliate marketing"))
+    if ans.get("fake_urgency"):
+        v.add(Finding("fake_urgency", NEEDS_EDIT,
+                      "Urgency/scarcity claim may not be genuine"))
+    if ans.get("unverified_testimonial"):
+        v.add(Finding("unverified_testimonial", NEEDS_EDIT,
+                      "Testimonial appears unverified — must use real, documented student stories"))
+    if ans.get("vague_certification_claim"):
+        v.add(Finding("vague_cert", NEEDS_EDIT,
+                      "Certification claim too vague — name the specific certifying body"))
     if ans.get("headline_type") == "D":
-        v.add(Finding("rule6.headline_D", FAIL,
-                      "Headline is a banned type (disease-as-problem / product-claim / doctor-claim)"))
-    if ans.get("claims_lack_research_backing"):
-        v.add(Finding("rule4.unbacked", NEEDS_EDIT,
-                      "A health claim is not on the approved ingredient list"))
-    if ans.get("unverified_social_proof"):
-        v.add(Finding("rule9.social_proof", FAIL,
-                      "Unverified social proof (clinically-proven / testimonial / before-after)"))
+        v.add(Finding("headline_banned", FAIL,
+                      "Headline uses banned pattern (income guarantee / MLM language / get-rich-quick)"))
 
 
 # ── Public ───────────────────────────────────────────────────────────────────
 
 def validate_copy(text: str, *, is_ours: bool = True, use_llm: bool = True) -> Verdict:
-    """
-    is_ours=True  -> hard gate for our own copy.
-    is_ours=False -> same checks, read as 'how usable is this competitor ad for us as-is'.
-    """
     v = Verdict()
     text = (text or "").strip()
     if not text:
@@ -202,7 +185,7 @@ def validate_copy(text: str, *, is_ours: bool = True, use_llm: bool = True) -> V
     _layer1(text, v)
     _layer2(text, v, use_llm=use_llm)
     if not is_ours and v.status == FAIL:
-        v.notes = ("Competitor copy — not usable verbatim; adapt to ingredient-led "
+        v.notes = ("Competitor copy — not usable verbatim; adapt for our brand "
                    "per the rewrite.") + v.notes
     return v
 
